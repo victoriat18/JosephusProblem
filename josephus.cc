@@ -1,4 +1,17 @@
 //HEADER!!
+//***************************************************************************
+//
+// Name: Victoria Torres
+// ZId:  Z2043396 
+// CSCI 330 PE1
+// Assignment and description:
+// Solves the josephus problem using a linked list.
+// Due Date: 9/21/2026
+//I certify that this is my own work and, where appropriate, an extension
+// Of the starter code provided for the assignment.
+//
+//***************************************************************************
+
 #include "josephus.h"
 
 #include <list>
@@ -26,12 +39,12 @@ static void usage(const char *a0)
     exit(1);
 }
 
-//print a message with an underline
+// Print a message with an underline
 void print_underlined_string(const std::string &message)
 {
     std::cout << message << std::endl;
 
-    //print one dash for each character in the message
+    // Print one dash for each character in the message
     for (std::string::size_type i = 0; i < message.length(); i++)
     {
         std::cout << "-";
@@ -40,10 +53,10 @@ void print_underlined_string(const std::string &message)
     std::cout << std::endl;
 }
 
-//Print the current list of people
+// Print the current list of people
 void print_list(const std::list<std::string> &collection, const unsigned &eliminations, int num_cols)
 {
-    //print the correct heading
+    // Print the correct heading
     if (eliminations == 0)
     {
         print_underlined_string("Initial group of people");
@@ -57,7 +70,7 @@ void print_list(const std::list<std::string> &collection, const unsigned &elimin
 
     int count = 0;
 
-    //print the names in the list
+    // Print the names in the list
 for (std::list<std::string>::const_iterator it = collection.begin();
      it != collection.end(); ++it)
 {
@@ -69,7 +82,7 @@ for (std::list<std::string>::const_iterator it = collection.begin();
         std::cout << ", ";
     }
 
-    //start a new line after specified number of columns
+    // Start a new line after specified number of columns
     if (count == num_cols)
     {
         std::cout << std::endl;
@@ -77,7 +90,7 @@ for (std::list<std::string>::const_iterator it = collection.begin();
     }
 }
 
-    //print a new line if the last row was not full
+    // Print a new line if the last row was not full
     if (count != 0)
     {
         std::cout << std::endl;
@@ -121,13 +134,13 @@ int main(int argc, char **argv)
     if (optind < argc)
         usage(argv[0]); // If we get here, there was extra junk on command line
 
-    //Create an empty list of people
+    // Create an empty list of people
     std::list<std::string> people;
 
-    //Generate the names and add them to the list
+    // Generate the names and add them to the list
     std::generate_n(std::back_inserter(people), num_people, SEQ(num_people));
 
-    //print the initial list
+    // Print the initial list
     print_list(people, 0, num_cols);
 
     //start the iterator at the first person
@@ -135,25 +148,25 @@ int main(int argc, char **argv)
 
     unsigned eliminations = 0;
 
-    //continue until only one person remains
+    // Continue until only one person remains
     while (people.size() > 1)
     {
-        //advance to the person to eliminate
+        // Advance to the iterator to eliminate
         for (unsigned i = 1; i < modulus; i++)
         {
             ++it;
 
-            //go back to beginning when the end is reached
+            // Go back to beginning when the end is reached
             if (it == people.end())
             {
                 it = people.begin();
             }
         }
 
-        //remove the person and get the next iterator
+        // Remove the person and get the next iterator
         it = people.erase(it);
 
-        //go back to the beginning if erase returned end()
+        // Go back to the beginning if erase returned end()
         if (it == people.end())
         {
             it = people.begin();
@@ -161,17 +174,16 @@ int main(int argc, char **argv)
 
         eliminations++;
 
-        //print the list at the required frequency
+        // Print the list at the required frequency
         if (eliminations % print_frequency == 0)
         {
             print_list(people, eliminations, num_cols);
         }
     }
 
-    //print the final remaining person
+    // Print the final remaining person
     print_list(people, eliminations, num_cols);
 
     return 0;
 }
-
 //end 
